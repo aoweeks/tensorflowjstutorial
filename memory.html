@@ -36,25 +36,30 @@
             run = async ( ) => {
                 
                 // Import from CSV
-                const houseSalesDataSet = tf.data.csv("http://127.0.0.1:8080/kc_house_data.csv");
+                const houseSalesDataset = tf.data.csv("http://127.0.0.1:8080/kc_house_data.csv");
 
                 // Extract x and y values to plot
-                const points = houseSalesDataSet.map( record => ({
+                const pointsDataset = houseSalesDataset.map( record => ({
                     x: record.sqft_living,
                     y: record.price
                 }));
-                plot( await points.toArray(), "Square Feet");
+                const points = await pointsDataset.toArray();
+                tf.util.shuffle( points );
+                plot( points, "Square Feet");
 
                 // Extract Features (inputs)
-                const featureValues = await points.map( p => p.x ).toArray();
+                const featureValues = points.map( p => p.x );
                 const featureTensor = tf.tensor2d( featureValues, [featureValues.length, 1]);
 
                 // Extract Labels (outputs)
-                const labelValues = await points.map( p => p.y ).toArray();
+                const labelValues = points.map( p => p.y );
                 const labelTensor = tf.tensor2d( labelValues, [labelValues.length, 1]);
 
+                // Normalise features and labels
                 const normalisedFeature = normalise(featureTensor);
                 const normalisedLabel = normalise(labelTensor);
+
+                normalisedFeature.tensor.print();
             };
 
             run();
