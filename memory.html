@@ -34,7 +34,8 @@
             }
 
             run = async ( ) => {
-                
+
+
                 // Import from CSV
                 const houseSalesDataset = tf.data.csv("http://127.0.0.1:8080/kc_house_data.csv");
 
@@ -44,6 +45,9 @@
                     y: record.price
                 }));
                 const points = await pointsDataset.toArray();
+                if ( points.length % 2 !== 0 ){ // If odd number of elements
+                    points.pop(); // remove last element from array
+                }
                 tf.util.shuffle( points );
                 plot( points, "Square Feet");
 
@@ -59,10 +63,14 @@
                 const normalisedFeature = normalise(featureTensor);
                 const normalisedLabel = normalise(labelTensor);
 
-                normalisedFeature.tensor.print();
+                const [trainingFeatureTensor, testingFeatureTensor] = tf.split(normalisedFeature.tensor, 2);
+                const [trainingLabelTensor, testingLabelTensor] = tf.split(normalisedLabel.tensor, 2);
+                trainingFeatureTensor.print( true );
+
             };
 
             run();
+            console.log( tf.memory() );
         </script>
     </head>
 
