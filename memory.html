@@ -35,9 +35,6 @@
 
             run = async ( ) => {
                 const houseSalesDataSet = tf.data.csv("http://127.0.0.1:8080/kc_house_data.csv");
-                const sampleDataSet = houseSalesDataSet.take(10);
-                const dataArray = await sampleDataSet.toArray();
-                console.log( dataArray );
 
                 const points = houseSalesDataSet.map( record => ({
                     x: record.sqft_living,
@@ -54,16 +51,8 @@
                 const labelValues = await points.map( p => p.y ).toArray();
                 const labelTensor = tf.tensor2d( labelValues, [labelValues.length, 1]);
 
-                featureTensor.print();
-                labelTensor.print();
-
                 const normalisedFeature = normalise(featureTensor);
                 const normalisedLabel = normalise(labelTensor);
-                
-                normalisedFeature.tensor.print();
-                normalisedLabel.tensor.print();
-
-                denormalise( normalisedFeature.tensor, normalisedFeature.min, normalisedFeature.max ).print();
             };
 
             run();
