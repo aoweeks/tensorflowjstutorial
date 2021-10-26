@@ -60,8 +60,8 @@
                 const normalisedFeature = normalise(featureTensor);
                 const normalisedLabel = normalise(labelTensor);
                 
-                normalisedFeature.Tensor.print();
-                normalisedLabel.Tensor.print();
+                normalisedFeature.tensor.print();
+                normalisedLabel.tensor.print();
 
                 denormalise( normalisedFeature.tensor, normalisedFeature.min, normalisedFeature.max ).print();
             };
