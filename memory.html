@@ -10,8 +10,17 @@
                 const max = tensor.max();
 
                 const normalisedTensor = tensor.sub( min ).div( max.sub( min ) );
-                return normalisedTensor;
+                return {
+                    tensor: normalisedTensor,
+                    min,
+                    max
+                }
             };
+
+            denormalise = (tensor, min, max) => {
+                const denormalisedTensor = tensor.mul( max.sub( min ) ).add( min );
+                return denormalisedTensor; 
+            }
 
             plot = async (pointsArray, featureName) => {
                 tfvis.render.scatterplot(
@@ -48,11 +57,13 @@
                 featureTensor.print();
                 labelTensor.print();
 
-                const normalisedFeatureTensor = normalise(featureTensor);
-                const normalisedLabelTensor = normalise(labelTensor);
+                const normalisedFeature = normalise(featureTensor);
+                const normalisedLabel = normalise(labelTensor);
                 
-                normalisedFeatureTensor.print();
-                normalisedLabelTensor.print();
+                normalisedFeature.Tensor.print();
+                normalisedLabel.Tensor.print();
+
+                denormalise( normalisedFeature.tensor, normalisedFeature.min, normalisedFeature.max ).print();
             };
 
             run();
