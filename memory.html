@@ -5,6 +5,14 @@
 
         <script>
 
+            normalise = (tensor) => {
+                const min = tensor.min();
+                const max = tensor.max();
+
+                const normalisedTensor = tensor.sub( min ).div( max.sub( min ) );
+                return normalisedTensor;
+            };
+
             plot = async (pointsArray, featureName) => {
                 tfvis.render.scatterplot(
                     { name: `${featureName} vs House Price` },
@@ -39,6 +47,12 @@
 
                 featureTensor.print();
                 labelTensor.print();
+
+                const normalisedFeatureTensor = normalise(featureTensor);
+                const normalisedLabelTensor = normalise(labelTensor);
+                
+                normalisedFeatureTensor.print();
+                normalisedLabelTensor.print();
             };
 
             run();
