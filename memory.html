@@ -22,6 +22,19 @@
                 return denormalisedTensor; 
             }
 
+            createModel = () => {
+                const model = tf.sequential();
+                
+                model.add( tf.layers.dense({
+                    units: 1,
+                    useBias: true,
+                    activation: 'linear',
+                    inputDim: 1,
+                }));
+
+                return model;
+            }
+
             plot = async (pointsArray, featureName) => {
                 tfvis.render.scatterplot(
                     { name: `${featureName} vs House Price` },
@@ -65,7 +78,8 @@
 
                 const [trainingFeatureTensor, testingFeatureTensor] = tf.split(normalisedFeature.tensor, 2);
                 const [trainingLabelTensor, testingLabelTensor] = tf.split(normalisedLabel.tensor, 2);
-                trainingFeatureTensor.print( true );
+                
+                const model  = createModel();
 
             };
 
