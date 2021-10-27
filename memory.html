@@ -82,7 +82,8 @@
                 const model  = createModel();
                 model.summary();
                 tfvis.show.modelSummary( { name: "Model Summary"}, model );
-
+                const layer = model.getLayer( undefined, 0 );
+                tfvis.show.layer( {name:  "Layer 1"}, layer );
             };
 
             run();
