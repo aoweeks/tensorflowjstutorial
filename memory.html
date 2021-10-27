@@ -80,6 +80,8 @@
                 const [trainingLabelTensor, testingLabelTensor] = tf.split(normalisedLabel.tensor, 2);
                 
                 const model  = createModel();
+                model.summary();
+                tfvis.show.modelSummary( { name: "Model Summary"}, model );
 
             };
 
