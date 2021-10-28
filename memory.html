@@ -32,6 +32,13 @@
                     inputDim: 1,
                 }));
 
+                model.add ( tf.layers.dense({
+                    units: 2,
+                    useBias: false,
+                    activation: 'linear',
+                    inputDim: 1
+                }));
+
                 const optimizer = tf.train.sgd(0.1);
                 model.compile( {
                     loss: 'meanSquaredError',
@@ -89,7 +96,9 @@
                 model.summary();
                 tfvis.show.modelSummary( { name: "Model Summary"}, model );
                 const layer = model.getLayer( undefined, 0 );
+                const layer2 = model.getLayer( undefined, 1 );
                 tfvis.show.layer( {name:  "Layer 1"}, layer );
+                tfvis.show.layer( {name:  "Layer 2"}, layer2 );
             };
 
             run();
