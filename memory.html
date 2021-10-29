@@ -60,10 +60,10 @@
                 )
 
                 return model.fit( trainingFeatureTensor, trainingLabelTensor, {
-                    batchSize: 512,
+                    batchSize: 32,
                     epochs: 20,
                     callbacks: {
-                        onEpochEnd, onBatchEnd,
+                        onEpochEnd,
                     }
                 });
             };
