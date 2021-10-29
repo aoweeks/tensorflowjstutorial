@@ -107,7 +107,9 @@
                 const layer = model.getLayer( undefined, 0 );
                 tfvis.show.layer( {name:  "Layer 1"}, layer );
 
-                await trainModel( model, trainingFeatureTensor, trainingLabelTensor);
+                const result = await trainModel( model, trainingFeatureTensor, trainingLabelTensor);
+                const trainingLoss = result.history.loss.pop();
+                console.log(`Training set loss: ${trainingLoss}`);
             };
 
             run();
